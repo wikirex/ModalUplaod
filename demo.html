@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<!-- Apple devices fullscreen -->
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<!-- Apple devices fullscreen -->
+	<meta names="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	
+	<title>Demo of Modal Upload</title>
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<!-- Bootstrap responsive -->
+	<link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+
+	<!-- jQuery -->
+	<script src="js/jquery.min.js"></script>
+	<!-- Bootstrap -->
+	<script src="js/bootstrap.min.js"></script>
+	<!-- jquery form -->
+	<script src="js/plugins/form/jquery.form.min.js"></script>
+	<!-- imagesLoaded -->
+
+	<script src="js/custom/upload.js"></script>
+	
+<script>
+$(document).ready(function(){
+
+    upload.init();
+});
+
+function get_versions(field_name, to_string){
+	var versions = [];
+	var version = {};
+
+	if(field_name == 'photo'){
+		version = {};
+		version.folder = 'cat/icon/normal/';
+		version.width = 107;
+		version.height = 165;
+		version.max_width = 500;
+		version.max_height = 500;
+		version.root = 'true';
+		version.crop = 'true';
+		versions.push(version);
+
+		version = {};
+		version.folder = 'cat/icon/normal/thumb/';
+		version.width = 100;
+		version.height = 100;
+		version.max_width = 500;
+		version.max_height = 500;
+		version.root = 'true';
+		version.crop = 'true';
+		versions.push(version);
+	}
+
+	if(field_name == 'photo2'){
+		version = {};
+		version.folder = 'cat/icon/over/';
+		version.width = 107;
+		version.height = 165;
+		version.max_width = 500;
+		version.max_height = 500;
+		version.root = 'true';
+		version.crop = 'true';
+		versions.push(version);
+
+		version = {};
+		version.folder = 'cat/icon/over/thumb/';
+		version.width = 100;
+		version.height = 100;
+		version.max_width = 500;
+		version.max_height = 500;
+		version.root = 'true';
+		version.crop = 'true';
+		versions.push(version);
+	}
+	
+	if(to_string == true){
+		var str = JSON.stringify(versions);
+		var pattern = /"/g;
+		var str = str.replace(pattern, '&quot;');
+		return str;
+	}else{
+		return versions;
+	}
+}
+
+</script>
+</head>
+
+<body>
+
+<input type="text" name="photo" id="photo" class="simple_upload" value="">
+
+</body>
+
+</html>
+
