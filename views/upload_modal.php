@@ -7,15 +7,15 @@
         <h4 class="modal-title" id="upload_title">Update File</h4>
       </div>
       <div class="modal-body">
-      	<form name="upload_form" action="upload.php" method="POST" class='form-horizontal form-bordered' enctype='multipart/form-data'>
-		      <div class="form-group">
-		       <label for="upload_file" class="col-sm-2 control-label">File</label>
-    		    <div class="col-sm-10">
-    		      <input type="file" class="form-control" id="upload_file" name="upload_file" placeholder="File" />
-    		      <input type="hidden" name="versions" value="" />
-    		    </div>
-		      </div>
-		    </form>
+      	<form name="upload_form" action="<?=base_url()?>index.php/admin/modal_upload" method="POST" class='form-horizontal form-bordered' enctype='multipart/form-data'>
+		  <div class="form-group">
+		    <label for="upload_file" class="col-sm-2 control-label">File</label>
+		    <div class="col-sm-10">
+		      <input type="file" class="form-control" id="mupload_file" name="mupload_file" placeholder="File" />
+		      <input type="hidden" name="versions" value="" />
+		    </div>
+		  </div>
+		</form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

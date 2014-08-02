@@ -1,5 +1,4 @@
 //Upload modal using jquery.form.js
-var $source_item = null;
 var upload = {
 	init: function(){
 		var wrap = this;
@@ -7,18 +6,24 @@ var upload = {
 		var $form = $('#win_upload form');
 		var $bt_submit = $win.find('.bt_submit');
 
-		$('input.simple_upload').each(function(index){
+		var $thumb = null;
+		var $source_item = null;
+
+		$('input.modal_upload').each(function(index){
 	    	var $this = $(this);
 	    	var versions = get_versions($this.attr('id'), true);
+	    	//console.log(versions);
 	    	wrap.init_fields($this, versions);
 
 	    	$this.on('click', function(){
 	    		$source_item = $(this);
+	    		$thumb = $source_item.next();
+
 	    		wrap.set_versions(versions);
 				wrap.show();
 			});
 
-			var $thumb = $('<img class="photo_thumb" src="" />').insertAfter($this);
+			$thumb = $('<img class="photo_thumb" src="" />').insertAfter($this);
 	        wrap.show_thumb($this, $thumb);
 
 	        $this.focusout(function(){
@@ -50,13 +55,17 @@ var upload = {
 				success: function(data, statusText, xhr, $form) { 
 					//console.log(data);
 					//return;
-
 					$bt_submit.text('Upload').attr('disabled', false);
 
 					if(data.status == 'success'){
-						$source_item.val(data.data);
+						var files = data.data;
+						var file = files[0];
+
+						$source_item.val(file.upload_url + file.file_name);
 						wrap.hide();
 						$form[0].reset();
+
+						wrap.show_thumb($source_item, $thumb);
 					}else{
 						alert(data.err);
 					}
@@ -83,6 +92,8 @@ var upload = {
 		$field.attr('data-version', version_str);
 	}, 
 	set_versions: function(versions){
+		var wrap = this;
+		versions = wrap.json2str(versions);
 		$('#win_upload form input[name="versions"]').val(versions);
 	}, 
 	get_dir: function (url){
@@ -112,11 +123,22 @@ var upload = {
 	    var value = $field.val();
 
 	    if(value != '') {
-	        var file_name = wrap.get_file_name(value);
-	        var dir_url = wrap.get_dir(value);
-	        console.log(dir_url);
-	        var url = dir_url + 'thumb/' + file_name;
-	        $thumb.attr('src', url);
+	    	var file_name = wrap.get_file_name(value);
+
+	    	if(base_url != null){
+	    		$thumb.attr('src', base_url + 'uploads/thumbnails/' + file_name);
+	    	}else{
+		        var dir_url = wrap.get_dir(value);
+		        //console.log(dir_url);
+		        var url = dir_url + 'thumb/' + file_name;
+		        $thumb.attr('src', url);
+	    	}
 	    }
+	}, 
+	json2str: function(json){
+		var str = JSON.stringify(json);
+		var pattern = /"/g;
+		var str = str.replace(pattern, '&quot;');
+		return str;
 	}
 }
